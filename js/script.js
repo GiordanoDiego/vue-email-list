@@ -16,13 +16,27 @@ const { createApp } = Vue;
 createApp({
     data() {
         return {
-            h1Content: 'Ora ho Vue qui?',
+            url: 'https://flynn.boolean.careers/exercises/api/random/mail',
+            emails: [], 
+            finished: false,
         };
     },
     methods: {
-        handleButtonClick() {
-            console.log(this.faiQualcosa(3));
-        },
         
+    },
+    mounted(){
+        for(let i = 0; i<10; i++){
+            axios
+            .get(this.url)
+            .then((res) => {
+                console.log("Email nuova:",res.data.response);
+                this.emails.push(res.data.response);
+
+                if(this.emails.length == 10){ //devo mettere la condizione perchè non so quando         arriveranno le chiamate
+                    this.finished = true;
+                }
+            })
+        }
     }
 }).mount('#app');
+console.log(axios);
